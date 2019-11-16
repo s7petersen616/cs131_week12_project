@@ -20,20 +20,19 @@ public class CafeWall {
 		
     public static void main(String[] args)  {
 
-		//Create panel		
-	DrawingPanel panel = new DrawingPanel(650,400);
-      panel.setBackground(Color.GRAY);
-      Graphics brush = panel.getGraphics();
+        //Create panel		
+        DrawingPanel panel = new DrawingPanel(650,400);
+        panel.setBackground(Color.GRAY);
+        Graphics brush = panel.getGraphics();
 
-      drawRow(0, 0, 4, 20, brush);
-      drawRow(50, 70, 5, 30, brush);
+        drawRow(0, 0, 4, 20, brush);
+        drawRow(50, 70, 5, 30, brush);
 
-      drawGrid(10, 150, 4, 25, 0, brush);
-      drawGrid(250, 200, 3, 25, 10, brush);
-      drawGrid(425, 180, 5, 20, 10, brush);
-      drawGrid(400, 20, 2, 35, 35, brush); 
-	}
-		
+        drawGrid(10, 150, 4, 25, 0, brush);
+        drawGrid(250, 200, 3, 25, 10, brush);
+        drawGrid(425, 180, 5, 20, 10, brush);
+        drawGrid(400, 20, 2, 35, 35, brush); 
+	}	
 
 
 //***************************************************************************
