@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - CafeWall",
+            "request": "launch",
+            "mainClass": "CafeWall",
+            "projectName": "week12_project_827f36f6"
+        }
+    ]
+}
