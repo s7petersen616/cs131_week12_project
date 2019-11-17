@@ -1,37 +1,56 @@
 /**
-* CptS 131, Project 9 "Object Oriented Programming"
+* CptS 131, Project 9 "Java Graphics"
 *
-* CafeWall: Program will convert temperature value the user sets on 
-*
-*						
-*                       
+* CafeWall: Program will draw a set of rows and grids to form a 
+*           geometrical-optical illusion in which the parallel straight 
+*           dividing lines between staggered rows with alternating black 
+*           and white "bricks" appear to be sloped
 *
 * @author   Shawn Petersen
 * @version  1.0
 * @since    2019-11-15
 */
 
-
 import java.awt.*;
 
 public class CafeWall {
     public static final int PIXEL_SIZE = 2;
-    public static final int SPACE_MORTAR = PIXEL_SIZE;   
+    public static final int MORTAR_SPACING = PIXEL_SIZE;   
+    public static final int PANEL_WIDTH = 650;
+    public static final int PANEL_HEIGHT = 400;
 		
-    public static void main(String[] args)  {
+    public static void main(String[] args)  {        
 
-        //Create panel		
-        DrawingPanel panel = new DrawingPanel(650,400);
+        //Create panel with size 650x400
+        DrawingPanel panel = new DrawingPanel(PANEL_WIDTH,PANEL_HEIGHT);
+
+        //Set background of panel to gray        
         panel.setBackground(Color.GRAY);
-        Graphics brush = panel.getGraphics();
 
-        drawRow(0, 0, 4, 20, brush);
-        drawRow(50, 70, 5, 30, brush);
+        //Set Graphics panel title
+        panel.setTitle("CafeWall by Shawn Petersen");
 
-        drawGrid(10, 150, 4, 25, 0, brush);
-        drawGrid(250, 200, 3, 25, 10, brush);
-        drawGrid(425, 180, 5, 20, 10, brush);
-        drawGrid(400, 20, 2, 35, 35, brush); 
+        //Graphics panel
+        Graphics g = panel.getGraphics();
+
+        
+        //Draw rows      
+        drawRow(0, 0, 4, 20, g);
+        drawRow(50, 70, 5, 30, g);
+        panel.repaint();
+      
+        //Draw grid
+        drawGrid(400, 20, 2, 35, 35, g); 
+        panel.repaint();
+        drawGrid(10, 150, 4, 25, 0, g);
+        panel.repaint();
+        drawGrid(250, 200, 3, 25, 10, g);
+        panel.repaint();
+        drawGrid(425, 180, 5, 20, 10, g);       
+
+        //Refresh Panel with new/updated graphics
+        panel.repaint();
+
 	}	
 
 
@@ -43,48 +62,84 @@ public class CafeWall {
 
 	//***************************************************************************
 	/** 
-	* Find the last character on the string and return its value
+    * Draw a series of black, white boxes in a row.  The boxes have a blue
+    * x-cross drawn from corner to corner
 	*
-	* @param inString input string
+	* @param xCord      x-coordinate on grid
+	* @param yCord      y-coordinate on grid
+	* @param rowPairs   number of boxes in pairs to draw
+	* @param boxSize    size of box to draw
+	* @param g          Graphics Class passed
 	*
 	*/
-
-	public static void drawRow(int xCord, int yCord, int rowPairs, int boxSize, Graphics brush)
+    public static void drawRow( int xCord, 
+                                int yCord, 
+                                int rowPairs, 
+                                int boxSize, 
+                                Graphics g)
     {
+
+        //check if numPairs is valid
+        if (rowPairs < 1) 
+        {
+            throw new IllegalArgumentException("numPairs is not valid");
+        }
+
+
        for (int i = 0; i < rowPairs; i++)
-       {
-          brush.setColor(Color.BLACK);
-          brush.fillRect(xCord + 2 * (i * boxSize), yCord, boxSize, boxSize);
+       {    
+            //Draw Black box
+            g.setColor(Color.BLACK);
+            g.fillRect( xCord + 2 * (i * boxSize), 
+                        yCord, 
+                        boxSize, 
+                        boxSize);
+           
+            //Draw white box
+            g.setColor(Color.WHITE);
+            g.fillRect( xCord + 2 * (i * boxSize) + boxSize, 
+                        yCord, 
+                        boxSize,
+                        boxSize);
 
-          brush.setColor(Color.WHITE);
-          brush.fillRect(xCord + 2 * (i * boxSize) + boxSize, yCord , boxSize, boxSize);
+            //Draw blue x-cross
+            g.setColor(Color.BLUE);
+            g.drawLine( xCord + 2 * i * boxSize, 
+                        yCord, 
+                        xCord + 2 * i * boxSize + boxSize, 
+                        yCord + boxSize);                  
 
-          brush.setColor(Color.BLUE);
-          brush.drawLine(xCord + 2 * i * boxSize, yCord, xCord + 2 * i * boxSize + boxSize, 
-                         yCord + boxSize);
-          brush.drawLine(xCord + 2 * i * boxSize, yCord + boxSize, 
-                         xCord + 2 * i *boxSize + boxSize, yCord);
+            g.drawLine( xCord + 2 * i * boxSize, 
+                        yCord + boxSize, 
+                        xCord + 2 * i *boxSize + boxSize,
+                        yCord);
          }
      }
 
-    //draws a grid by calling drawRow with the appropriate parameters and for loop
-    //
-    // int xCord - the xCordinate of the leftmost box 
-    // int yCord - the yCordinate of the first row 
-    // int rowPairs - the number of pairs of black and white boxes per row of boxes
-    //                and the number of rows in the grid                  
-    // int boxSize - the length and width of the boxes in the row
-    // int offset - the x coordinate indentation of the second row 
-    // Graphics brush - a graphics brush used to draw with in Drawing Panel  
-     public static void drawGrid(int xCord, int yCord, int rowPairs, 
-                                 int boxSize, int offset, Graphics brush) 
+    /** draws a grid by calling drawRow with the appropriate parameters and for loop
+    *
+    * @param xCord x-coordinate of the top-left box
+    * @param yCord y-coordinate of the first row
+    * @param rowPairs  number of boxes in pairs per row plus number of rows in the grid
+    * @param boxSize width & height of box (square)
+    * @param offset length to offset second row of the pair relative to the first row
+    * @param g Graphics Class passed    
+    */
+     public static void drawGrid(   int xCoordinate, 
+                                    int yCoordinate,
+                                    int rowPairs, 
+                                    int boxSize,
+                                    int offset,
+                                    Graphics g) 
      {   
-         for (int i = 0; i < rowPairs * 2; i++)
+         for (int rowNumber = 0; rowNumber < rowPairs * 2; rowNumber++)
          {
-            drawRow(xCord + (offset * (i % 2)), yCord + (boxSize * i) + (SPACE_MORTAR * i), 
-                             rowPairs, boxSize, brush); 
+            drawRow( xCoordinate + (offset * (rowNumber % 2)), 
+                     yCoordinate + (boxSize * rowNumber) + (MORTAR_SPACING * rowNumber), 
+                     rowPairs, 
+                     boxSize,
+                     g); 
          }
      }
-	
 
-}
+  }
