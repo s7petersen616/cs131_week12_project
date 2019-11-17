@@ -32,24 +32,16 @@ public class CafeWall {
 
         //Graphics panel
         Graphics g = panel.getGraphics();
-
         
         //Draw rows      
         drawRow(0, 0, 4, 20, g);
-        drawRow(50, 70, 5, 30, g);
-        panel.repaint();
+        drawRow(50, 70, 5, 30, g);      
       
         //Draw grid
-        drawGrid(400, 20, 2, 35, 35, g); 
-        panel.repaint();
-        drawGrid(10, 150, 4, 25, 0, g);
-        panel.repaint();
-        drawGrid(250, 200, 3, 25, 10, g);
-        panel.repaint();
-        drawGrid(425, 180, 5, 20, 10, g);       
-
-        //Refresh Panel with new/updated graphics
-        panel.repaint();
+        drawGrid(400, 20, 2, 35, 35, g);       
+        drawGrid(10, 150, 4, 25, 0, g);        
+        drawGrid(250, 200, 3, 25, 10, g);     
+        drawGrid(425, 180, 5, 20, 10, g);     
 
 	}	
 
@@ -79,10 +71,11 @@ public class CafeWall {
                                 Graphics g)
     {
 
-        //check if numPairs is valid
+        //Are Row Pairs are valid
         if (rowPairs < 1) 
         {
-            throw new IllegalArgumentException("numPairs is not valid");
+            throw new IllegalArgumentException( "Row Pairs need to be greater " +
+                                                " or equal to 1");
         }
 
 
@@ -116,10 +109,10 @@ public class CafeWall {
          }
      }
 
-    /** draws a grid by calling drawRow with the appropriate parameters and for loop
+    /** draws a grid by calling drawRow multiple times
     *
-    * @param xCord x-coordinate of the top-left box
-    * @param yCord y-coordinate of the first row
+    * @param xCoordinate x-coordinate of the top-left box
+    * @param yCoordinate y-coordinate of the first row
     * @param rowPairs  number of boxes in pairs per row plus number of rows in the grid
     * @param boxSize width & height of box (square)
     * @param offset length to offset second row of the pair relative to the first row
